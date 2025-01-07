@@ -1,0 +1,9 @@
+{
+  "name": "leaflet-hatch",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "leaflet-hatch/src",
+  "projectType": "library",
+  "tags": [],
+  "// targets": "to see all targets run: nx show project leaflet-hatch --web",
+  "targets": {}
+}
