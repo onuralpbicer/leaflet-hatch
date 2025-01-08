@@ -56,8 +56,6 @@ export class AppComponent {
           type: HatchTypes.Line,
           color: 'blue',
           fillColor: 'red',
-          diagonal: true,
-          side: 'left',
         }),
       }).addTo(this.map);
     });

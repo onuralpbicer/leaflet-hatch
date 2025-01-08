@@ -12,35 +12,10 @@ interface CommonHatchOptions {
   maxSize?: number;
 }
 
-interface CommonLineHatchOptions {
+interface LineHatchOptions {
   type: HatchTypes.Line;
+  angle?: number;
 }
-
-interface VerticalHatchOptions extends CommonLineHatchOptions {
-  vertical: true;
-  horizontal?: undefined;
-  diagonal?: undefined;
-  side?: never;
-}
-
-interface HorizontalHatchOptions extends CommonLineHatchOptions {
-  horizontal: true;
-  vertical?: undefined;
-  diagonal?: undefined;
-  side?: never;
-}
-
-interface DiagonalHatchOptions extends CommonLineHatchOptions {
-  diagonal: true;
-  side: 'left' | 'right';
-  vertical?: undefined;
-  horizontal?: undefined;
-}
-
-type LineHatchOptions =
-  | HorizontalHatchOptions
-  | VerticalHatchOptions
-  | DiagonalHatchOptions;
 
 type Options = CommonHatchOptions &
   LineHatchOptions &
@@ -56,10 +31,7 @@ export function hatchStyle(options: Options = {} as Options): PathOptions {
     weight = 1,
     fillOpacity = 0.6,
     width = 4,
-    diagonal,
-    vertical,
-    horizontal,
-    side,
+    angle = 0,
     color,
     type,
     backgroundColor,
@@ -71,10 +43,7 @@ export function hatchStyle(options: Options = {} as Options): PathOptions {
   const pattern = createPattern(
     {
       type,
-      diagonal,
-      vertical,
-      horizontal,
-      side,
+      angle,
     },
     maxSize
   );
@@ -115,15 +84,7 @@ function createPattern(
   pattern.setAttribute('height', maxSize.toString());
   pattern.setAttribute('patternUnits', 'userSpaceOnUse');
   pattern.setAttribute('patternContentUnits', 'userSpaceOnUse');
-  if (directionOptions.vertical) {
-    pattern.setAttribute('patternTransform', 'rotate(90)');
-  } else if (directionOptions.diagonal) {
-    pattern.setAttribute(
-      'patternTransform',
-      `rotate(${directionOptions.side == 'left' ? '45' : '-45'})`
-    );
-  }
-
+  pattern.setAttribute('patternTransform', `rotate(${directionOptions.angle})`);
   return pattern;
 }
 
